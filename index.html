@@ -1,0 +1,106 @@
+<section id="constraints-r1-r11"> 
+  <h2>3. Performance, Stability &amp; Geometric Constraints (R1–R11)</h2>
+  <p>
+    To maintain <em>C</em><sup>1</sup> differentiability for gradient-based optimization, element-level von Mises stress ratios 
+    <em>a<sub>e</sub></em> = &sigma;<sub>vM,<em>e</em></sub> / &sigma;<sub>allow</sub> are aggregated via a Kreisselmeier-Steinhauser (KS) 
+    smooth maximum function with aggregation parameter &rho; = 60:
+  </p>
+  <p style="text-align: center;">
+    KS<sub>&rho;</sub>(<strong>a</strong>) = <em>a</em><sub>max</sub> + (1/&rho;) ln &sum;<sub><em>e</em></sub> exp[&rho;(<em>a<sub>e</sub></em> &minus; <em>a</em><sub>max</sub>)] &le; 1
+    <span style="float: right;">(5)</span>
+  </p>
+
+  <table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; text-align: left;">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Category</th>
+        <th>Constraint Formulation</th>
+        <th>Target / Bound</th>
+        <th>Engineering Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>R1</strong></td>
+        <td>Yield Strength</td>
+        <td><em>g</em><sub>R1</sub> = max<sub><em>e</em></sub> &sigma;<sub>vM,<em>e</em></sub> / &sigma;<sub>yield,allow</sub> &minus; 1 &le; 0</td>
+        <td>&le; 177.0 MPa (<em>S<sub>y</sub></em> / 1.56)</td>
+        <td>Prevents static plastic yielding.</td>
+      </tr>
+      <tr>
+        <td><strong>R2</strong></td>
+        <td>Fatigue Limit</td>
+        <td><em>g</em><sub>R2</sub> = max<sub><em>e</em></sub> &sigma;<sub>vM,<em>e</em></sub> / &sigma;<sub>allow,fatigue</sub> &minus; 1 &le; 0</td>
+        <td>&le; 44.5 MPa (Goodman)</td>
+        <td>Prevents 10<sup>6</sup>-cycle fatigue (<em>n<sub>f</sub></em> &ge; 2.0).</td>
+      </tr>
+      <tr>
+        <td><strong>R3</strong></td>
+        <td>Stiffness</td>
+        <td><em>g</em><sub>R3</sub> = |<em>u<sub>z</sub></em>|<sub>max</sub> / &delta;<sub>max,allow</sub> &minus; 1 &le; 0</td>
+        <td>&le; 2.70 mm (<em>L</em> / 400)</td>
+        <td>Limits vertical deflection at seat <em>N</em><sub>4</sub>.</td>
+      </tr>
+      <tr>
+        <td><strong>R4</strong></td>
+        <td>Vibration</td>
+        <td><em>g</em><sub>R4</sub> = 1 &minus; <em>f</em><sub>1</sub>(<strong>d</strong>) / <em>f</em><sub>min</sub> &le; 0</td>
+        <td><em>f</em><sub>1</sub> = &omega;<sub>1</sub> / (2&pi;) &ge; 3.0 Hz</td>
+        <td>Avoids pedaling resonance modes.</td>
+      </tr>
+      <tr>
+        <td><strong>R5</strong></td>
+        <td>Buckling (N1)</td>
+        <td><em>g</em><sub>R5</sub> = 1 &minus; &alpha;<sub>cr</sub>(<strong>d</strong>, <strong>u</strong>) / &alpha;<sub>target</sub> &le; 0</td>
+        <td>&alpha;<sub>cr</sub> &ge; 3.0</td>
+        <td>Guards against Euler member buckling.</td>
+      </tr>
+      <tr>
+        <td><strong>R6</strong></td>
+        <td>Slenderness</td>
+        <td><em>g</em><sub>R6,<em>j</em></sub> = (<em>L<sub>j</sub></em> / <em>r<sub>g,j</sub></em>) / 200 &minus; 1 &le; 0</td>
+        <td>&le; 200 (<em>r<sub>g,j</sub></em> = 0.673<em>r<sub>j</sub></em>)</td>
+        <td>Prevents thin-walled local instability.</td>
+      </tr>
+      <tr>
+        <td><strong>R7</strong></td>
+        <td>Frame Reach</td>
+        <td>0.46 &le; <em>x<sub>H</sub></em> &minus; <em>x<sub>BB</sub></em> &le; 0.49</td>
+        <td>[0.46, 0.49] m</td>
+        <td>Enforces rider ergonomic reach.</td>
+      </tr>
+      <tr>
+        <td><strong>R8</strong></td>
+        <td>Frame Stack</td>
+        <td>0.62 &le; <em>z<sub>H</sub></em> &minus; <em>z<sub>BB</sub></em> &le; 0.65</td>
+        <td>[0.62, 0.65] m</td>
+        <td>Enforces rider ergonomic stack.</td>
+      </tr>
+      <tr>
+        <td><strong>R9</strong></td>
+        <td>Fork Fitment</td>
+        <td><em>g</em><sub>R9</sub> = ((<em>L</em><sub>fork</sub> &minus; 0.410) / 0.010)<sup>2</sup> &minus; 1 &le; 0</td>
+        <td>0.410 &plusmn; 0.010 m</td>
+        <td>Matches commercial fork length.</td>
+      </tr>
+      <tr>
+        <td><strong>R10</strong></td>
+        <td>Front Clearance</td>
+        <td><em>g</em><sub>R10</sub> = 1 &minus; <em>d</em><sub>DT-wheel</sub> / (<em>R</em><sub>wheel</sub> + 0.035) &le; 0</td>
+        <td><em>c</em><sub>front</sub> &ge; 0.035 m</td>
+        <td>Prevents front tire rub and toe-overlap.</td>
+      </tr>
+      <tr>
+        <td><strong>R11</strong></td>
+        <td>Rear Clearance</td>
+        <td><em>g</em><sub>R11</sub> = 1 &minus; <em>d</em><sub>ST-wheel</sub> / (<em>R</em><sub>wheel</sub> + 0.025) &le; 0</td>
+        <td><em>c</em><sub>rear</sub> &ge; 0.025 m</td>
+        <td>Prevents rear tire/seat-tube interference.</td>
+      </tr>
+    </tbody>
+    <caption>
+      <strong>Table 2:</strong> Summary of structural, modal, buckling (Nonlinear Component N1), and geometric constraints.
+    </caption>
+  </table>
+</section>
