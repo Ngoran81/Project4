@@ -16,7 +16,7 @@
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-    <!-- Import Map for Three.js -->
+    <!-- Import Map for Three.js and GLTFLoader -->
     <script type="importmap">
         {
             "imports": {
@@ -135,6 +135,21 @@
             border: 1px solid #334155;
         }
 
+        /* Loading Indicator */
+        #loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffffff;
+            font-family: sans-serif;
+            font-size: 1rem;
+            pointer-events: none;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 4px;
+        }
+
         /* Responsive Table Styling */
         .table-wrapper {
             overflow-x: auto;
@@ -212,9 +227,11 @@
         <section id="viewer-section">
             <h2>2. Interactive 3D Design Viewer</h2>
             <p>
-                Below is the interactive WebGL comparison tool built with Three.js, allowing you to inspect the initial parametric layout versus the optimized structure, view deformations, and analyze stress utilization heatmaps.
+                Below is the interactive WebGL viewer rendering your SolidWorks <code>AssemblyBIKE.glb</code> model, allowing you to rotate, zoom, and inspect the optimized structure from all angles.
             </p>
-            <div id="viewer"></div>
+            <div id="viewer">
+                <div id="loader">Loading 3D Bicycle Model...</div>
+            </div>
         </section>
 
         <hr>
@@ -265,7 +282,7 @@
                         <tr>
                             <td><strong>R3</strong></td>
                             <td>Stiffness</td>
-                            <td>$\|u_z\|_{\text{max}} \le \delta_{\text{max, allow}}$</td>
+                            <td>$\Vert{}u_z\Vert{}_{\text{max}} \le \delta_{\text{max, allow}}$</td>
                             <td>$\le 2.70 \, \text{mm}$ ($L/400$)</td>
                             <td>Limits excessive vertical frame flex</td>
                         </tr>
@@ -307,7 +324,7 @@
                         <tr>
                             <td><strong>R9</strong></td>
                             <td>Fork Fit</td>
-                            <td>$\|\mathbf{x}_{HB} - \mathbf{x}_F\|_2$</td>
+                            <td>$\Vert{}\mathbf{x}_{HB} - \mathbf{x}_F\Vert{}_2$</td>
                             <td>$0.410 \pm 0.010 \, \text{m}$</td>
                             <td>Ensures standard front fork fitment</td>
                         </tr>
@@ -341,7 +358,7 @@
                 <li><strong>V3 (Global Equilibrium &amp; Reaction Balance):</strong> Confirmed reaction forces sum to balance the $-800 \, \text{N}$ seat load and self-weight to machine precision ($\sum F = 0, \sum M = 0$).</li>
                 <li><strong>V4 (Mesh Refinement &amp; Convergence):</strong> Confirmed asymptotic convergence of maximum seat deflection across 1, 2, 4, and 8 elements per member.</li>
                 <li><strong>V5 (Matrix Conditioning):</strong> Verified full matrix rank and reciprocal condition number $\text{rcond}(K_{ff}) &gt; 10^{-12}$.</li>
-                <li><strong>V6 (Work-Energy Consistency):</strong> Ensured external work equals internal strain energy ($|W_{\text{ext}} - U_{\text{int}}| / W_{\text{ext}} &lt; 10^{-13}$).</li>
+                <li><strong>V6 (Work-Energy Consistency):</strong> Ensured external work equals internal strain energy ($\vert{}W_{\text{ext}} - U_{\text{int}}\vert{} / W_{\text{ext}} &lt; 10^{-13}$).</li>
             </ol>
         </section>
 
@@ -366,9 +383,12 @@
     <script type="module">
         import * as THREE from "three";
         import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+        import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-        async function initViewer() {
+        function initViewer() {
             const container = document.getElementById("viewer");
+            const loaderEl = document.getElementById("loader");
+            
             const scene = new THREE.Scene();
             scene.background = new THREE.Color(0x121212);
 
@@ -377,42 +397,17 @@
 
             const renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
             container.appendChild(renderer.domElement);
 
             const controls = new OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
 
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+            const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
             scene.add(ambientLight);
 
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
-            directionalLight.position.set(5, 10, 7);
-            scene.add(directionalLight);
+            const directionalLight1 = new THREE.DirectionalLight(0xffffff, 1.5);
+            directionalLight1.position.set(5, 10, 7);
+            scene.add(directionalLight1);
 
-            // Placeholder geometry representing initial vs optimized frames
-            const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-            const material = new THREE.MeshStandardMaterial({ color: 0x0284c7, wireframe: false });
-            const cube = new THREE.Mesh(geometry, material);
-            scene.add(cube);
-
-            // Handle responsive window resizing
-            window.addEventListener("resize", () => {
-                if (!container) return;
-                camera.aspect = container.clientWidth / container.clientHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(container.clientWidth, container.clientHeight);
-            });
-
-            function animate() {
-                requestAnimationFrame(animate);
-                cube.rotation.x += 0.005;
-                cube.rotation.y += 0.005;
-                controls.update();
-                renderer.render(scene, camera);
-            }
-            animate();
-        }
-        initViewer();
-    </script>
-</body>
-</html>
+            const directionalLight2 = new THREE.DirectionalLight
