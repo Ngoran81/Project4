@@ -1,13 +1,5 @@
-# Site settings
-title: "PDE-Constrained Design Optimization of a 3D Bicycle Frame"
-description: "Engineering analysis, KKT conditions, adjoint sensitivity methods, and interactive 3D model of an Aluminum 6061-T6 bicycle frame."
-show_downloads: true
-theme: jekyll-theme-minimal # Or specify your custom theme / layout if preferred
-
-# Build settings
+title: "3D Bicycle Frame Optimization"
 markdown: kramdown
 kramdown:
-  math_engine: mathjax # Ensures smooth rendering of your mathematical equations
-
-plugins:
-  - jekyll-feed
+  input: GFM
+  math_engine: mathjax
