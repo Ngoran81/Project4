@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>PDE-Constrained Design Optimization of a 3D Aluminum 6061-T6 Bicycle Frame - Sections 3 to 6</title>
+    <!-- Import the Google model-viewer script -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -49,6 +51,19 @@
             font-family: "Courier New", Courier, monospace;
             overflow-x: auto;
         }
+        /* Styling for the 3D model viewer container */
+        .model-container {
+            width: 100%;
+            height: 500px;
+            margin: 30px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f5f5f5;
+        }
+        model-viewer {
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body>
@@ -90,7 +105,7 @@
                 <tr>
                     <td><strong>R3</strong></td>
                     <td>Stiffness</td>
-                    <td>\(g_{R3} = ||u_z||_{max} / \delta_{max,allow} - 1 \le 0\)</td>
+                    <td>\(g_{R3} = \vert{}\vert{}u_z\vert{}\vert{}_{max} / \delta_{max,allow} - 1 \le 0\)</td>
                     <td>\(\le 2.70\text{ mm}\) (\(L / 400\))</td>
                     <td>Limits vertical deflection at seat \(N_4\).</td>
                 </tr>
@@ -169,7 +184,7 @@
                     \(\nabla_d \mathcal{L} = \frac{\partial f}{\partial d} + \lambda_{stat}^T \left(\frac{\partial K}{\partial d}\cdot u - \frac{\partial F}{\partial d}\right) + \lambda_{vib}^T \left(\frac{\partial K}{\partial d} - \omega_1^2 \frac{\partial M}{\partial d}\right)\phi + \lambda_{buck}^T \left(\frac{\partial K}{\partial d} + \alpha_{cr}\frac{\partial K_G}{\partial d}\right)\psi + \sum \mu_i \frac{\partial g_i}{\partial d} - \mu_{lb} + \mu_{ub} = 0\)
                 </div>
                 <div class="equation">
-                    \nabla_u \mathcal{L} = \lambda_{stat}^T K(d^*) + \lambda_{buck}^T \alpha_{cr} \left(\frac{\partial K_G}{\partial u}\right)\psi + \sum_{i=1}^{11} \mu_i^* \left(\frac{\partial g_i}{\partial u}\right) = 0
+                    \(\nabla_u \mathcal{L} = \lambda_{stat}^T K(d^*) + \lambda_{buck}^T \alpha_{cr} \left(\frac{\partial K_G}{\partial u}\right)\psi + \sum_{i=1}^{11} \mu_i^* \left(\frac{\partial g_i}{\partial u}\right) = 0\)
                 </div>
             </li>
             <li><strong>Primal Feasibility:</strong> All governing physics equations (\(h_1 = 0\), \(h_2 = 0\), \(h_3 = 0\)), performance constraints (\(g_i \le 0\)), and manufacturing bounds (\(d_{lower} \le d^* \le d_{upper}\)) hold simultaneously at \((d^*, u^*)\).</li>
@@ -235,7 +250,7 @@
                 </tr>
                 <tr>
                     <td>Optimal Solution</td>
-                    <td>\(d^*, u^*, \omega_1^*, \alpha_{cr}^*\)</td>
+                    <td>\(d^*, u^*, \omega_1^*, \alpha_{cr}^^*\)</td>
                     <td>Converged KKT stationary point satisfying primal/dual feasibility and complementary slackness.</td>
                 </tr>
             </tbody>
@@ -290,23 +305,4 @@
                     <td><strong>V4</strong></td>
                     <td>Mesh Refinement Convergence</td>
                     <td>Subdivide primary frame members into 1, 2, 4, and 8 Euler-Bernoulli beam elements under static rider loading.</td>
-                    <td>Asymptotic convergence of seat deflection \(u_z\) and peak bending moments.</td>
-                </tr>
-                <tr>
-                    <td><strong>V5</strong></td>
-                    <td>Matrix Conditioning & Stability</td>
-                    <td>Evaluate rank and reciprocal condition number \(rcond(K_{ff})\) of the reduced stiffness matrix with tied axle constraints.</td>
-                    <td>Full matrix rank and \(rcond(K_{ff}) > 10^{-12}\) (well above machine epsilon).</td>
-                </tr>
-                <tr>
-                    <td><strong>V6</strong></td>
-                    <td>Work-Energy Consistency</td>
-                    <td>Compare external work \(W_{ext} = \frac{1}{2} F^T u\) against total internal elastic strain energy \(U_{int} = \frac{1}{2} u^T Ku\).</td>
-                    <td>\(|W_{ext} - U_{int}| / W_{ext} < 10^{-13}\).</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-
-</body>
-</html>
+                    <td>Asymptotic convergence
