@@ -133,7 +133,7 @@
             height: 100%;
         }
 
-        /* Responsive Table Styling */
+        /* Responsive Table Styling & Image Grid */
         .table-wrapper {
             overflow-x: auto;
             margin: 1.25rem 0;
@@ -159,6 +159,34 @@
 
         tr:hover {
             background-color: #f1f5f9;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .image-card {
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .image-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .image-card p {
+            margin-top: 0.75rem;
+            font-size: 0.88rem;
+            color: var(--text-muted);
         }
 
         footer {
@@ -191,10 +219,11 @@
     <nav class="navbar">
         <a href="#summary">1. Summary</a>
         <a href="#viewer-section">2. 3D Viewer</a>
-        <a href="#formulation">3. Formulation</a>
-        <a href="#constraints">4. Constraints</a>
-        <a href="#verification">5. Verification</a>
-        <a href="#sensitivity">6. Sensitivity</a>
+        <a href="#baseline-fea">3. Baseline FEA</a>
+        <a href="#formulation">4. Formulation</a>
+        <a href="#constraints">5. Constraints</a>
+        <a href="#verification">6. Verification</a>
+        <a href="#sensitivity">7. Sensitivity</a>
     </nav>
 
     <main class="container">
@@ -225,8 +254,40 @@
 
         <hr>
 
+        <section id="baseline-fea">
+            <h2>3. Baseline FEA Structural Interpretation &amp; SolidWorks Simulation</h2>
+            <p>
+                Prior to structural optimization, the baseline frame geometry and component assembly were evaluated using finite element analysis under a static $800\,\text{N}$ rider load combined with fixed dropouts. The resulting simulation snapshots demonstrate that the manual unoptimized configuration is heavily over-engineered, providing substantial headroom for mass reduction.
+            </p>
+
+            <div class="image-grid">
+                <div class="image-card">
+                    <img src="Screenshot 2026-11-22 035526.png" alt="Baseline CAD Model Assembly">
+                    <p><strong>Figure 3.1:</strong> Baseline CAD Assembly (`AssemblyBIKE.STEP`) showing fixed boundary conditions at dropouts and $800\,\text{N}$ seat load application[cite: 8].</p>
+                </div>
+                <div class="image-card">
+                    <img src="Screenshot 2026-11-22 035701.png" alt="Static von Mises Stress Distribution">
+                    <p><strong>Figure 3.2:</strong> Static nodal von Mises stress distribution. Peak stress reaches only $8.44\,\text{MPa}$, well below the $275\,\text{MPa}$ yield limit[cite: 7].</p>
+                </div>
+                <div class="image-card">
+                    <img src="Screenshot 2026-11-22 043011.png" alt="Resultant Displacement URES">
+                    <p><strong>Figure 3.3:</strong> Resultant displacement (URES) contour. Maximum deflection is strictly limited to $0.065\,\text{mm}$ along the curved down tube[cite: 6].</p>
+                </div>
+                <div class="image-card">
+                    <img src="Screenshot 2026-11-22 043149.png" alt="Equivalent Strain ESTRN">
+                    <p><strong>Figure 3.4:</strong> Equivalent elastic strain (ESTRN) plot, peaking at $7.83 \times 10^{-5}$ near the upper seat tube junction[cite: 5].</p>
+                </div>
+            </div>
+
+            <p>
+                <strong>Engineering Interpretation for Optimization:</strong> Because the baseline peak von Mises stress ($8.44\,\text{MPa}$) utilizes less than $3.1\%$ of the available yield strength ($275\,\text{MPa}$) and maximum deflection ($0.065\,\text{mm}$) is an order of magnitude below serviceability limits, the baseline geometry is a prime candidate for gradient-based sizing optimization[cite: 5, 6, 7]. Thinning down tube wall thicknesses and reducing outer radii will systematically convert this structural excess into weight savings while active constraints prevent failure.
+            </p>
+        </section>
+
+        <hr>
+
         <section id="formulation">
-            <h2>3. Optimization Problem Formulation &amp; Parameters</h2>
+            <h2>4. Optimization Problem Formulation &amp; Parameters</h2>
             <p>
                 The structural framework comprises $M=8$ primary tubular members arranged across two interconnected triangles and a front fork assembly.
             </p>
@@ -241,7 +302,7 @@
         <hr>
 
         <section id="constraints">
-            <h2>4. Complete Constraints Summary (R1–R11)</h2>
+            <h2>5. Complete Constraints Summary (R1–R11)</h2>
             <div class="table-wrapper">
                 <table>
                     <thead>
@@ -339,7 +400,7 @@
         <hr>
 
         <section id="verification">
-            <h2>5. FEA Verification Ladder (V1–V6)</h2>
+            <h2>6. FEA Verification Ladder (V1–V6)</h2>
             <p>Our custom 3D Euler-Bernoulli finite element solver passed the following verification benchmarks prior to optimization:</p>
             <ol>
                 <li><strong>V1 (Rigid Body Motion):</strong> Verified exactly 6 zero eigenvalues ($\lambda_i &lt; 10^{-10}$) for unconstrained free-free boundary conditions.</li>
@@ -354,7 +415,7 @@
         <hr>
 
         <section id="sensitivity">
-            <h2>6. Adjoint Sensitivity Derivations &amp; KKT Optimality</h2>
+            <h2>7. Adjoint Sensitivity Derivations &amp; KKT Optimality</h2>
             <p>
                 To efficiently compute gradients without finite differences, we apply the adjoint method to the implicit equilibrium constraint $\mathbf{h}(d, \mathbf{u}) = \mathbf{K}(d)\mathbf{u} - \mathbf{F}(d) = \mathbf{0}$.
             </p>
