@@ -428,6 +428,31 @@
             color: var(--bg-dark);
         }
 
+        .figure-box {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1.25rem 0;
+            text-align: center;
+        }
+
+        .figure-box img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid #cbd5e1;
+            display: block;
+        }
+
+        .figure-box figcaption {
+            margin-top: 0.75rem;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            text-align: left;
+            line-height: 1.5;
+        }
+
         .callout {
             background: #f8fafc;
             border-left: 4px solid var(--bg-navy);
@@ -483,12 +508,12 @@
         <section id="sec-summary" class="report-section">
             <h2>1. Executive Summary &amp; Live 3D Initial-vs-Optimized Comparison</h2>
             <p>
-    This study closes the structural design loop for a 3D diamond mountain-bicycle frame manufactured from 6061-T6 aluminum alloy 
-    (\( \rho = 2700\,\mathrm{kg/m}^3 \), \( E = 68.3\,\mathrm{GPa} \), \( S_y = 276\,\mathrm{MPa} \)). 
-    Using an in-house sparse 3D Euler-Bernoulli finite element solver coupled with discrete-adjoint sensitivities and Sequential Least Squares Programming (SLSQP), 
-    total frame mass is reduced by 44.68%—from 1.9156 kg to 1.0597 kg—across 46 outer iterations while evaluating multi-axial static stress, 
-    stiffness, modal vibration, linearized buckling stability (\( N_1 \)), and manufacturing geometry bounds.
-</p>
+                This study closes the structural design loop for a 3D diamond mountain-bicycle frame manufactured from 6061-T6 aluminum alloy 
+                (\( \rho = 2700\,\mathrm{kg/m}^3 \), \( E = 68.3\,\mathrm{GPa} \), \( S_y = 276\,\mathrm{MPa} \)). 
+                Using an in-house sparse 3D Euler-Bernoulli finite element solver coupled with discrete-adjoint sensitivities and Sequential Least Squares Programming (SLSQP), 
+                total frame mass is reduced by 44.68%—from 1.9156 kg to 1.0597 kg—across 46 outer iterations while evaluating multi-axial static stress, 
+                stiffness, modal vibration, linearized buckling stability (\( N_1 \)), and manufacturing geometry bounds.
+            </p>
 
             <div class="kpi-grid">
                 <div class="kpi-card">
@@ -504,12 +529,12 @@
                 <div class="kpi-card">
                     <div class="label">Peak Stress Utilization</div>
                     <div class="val">0.9994</div>
-                    <div class="sub">True max $\sigma_{vM} / \sigma_{\text{allow}} \le 1.0$ (Pass)</div>
+                    <div class="sub">True max \( \sigma_{vM} / \sigma_{\mathrm{allow}} \le 1.0 \) (Pass)</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="label">Critical Buckling Factor ($N_1$)</div>
+                    <div class="label">Critical Buckling Factor (\( N_1 \))</div>
                     <div class="val">3.213</div>
-                    <div class="sub">Requirement $\alpha_{\text{cr}} \ge 2.00$ (+60.7% margin)</div>
+                    <div class="sub">Requirement \( \alpha_{\mathrm{cr}} \ge 2.00 \) (+60.7% margin)</div>
                 </div>
             </div>
 
@@ -553,7 +578,7 @@
                 <!-- Left Pane: Initial Baseline -->
                 <div class="viewer-pane">
                     <div class="pane-header">
-                        <span>Initial Baseline Design ($d_0$)</span>
+                        <span>Initial Baseline Design (\( d_0 \))</span>
                         <span id="badge-init-mass">1.916 kg</span>
                     </div>
                     <div class="canvas-box" id="canvas-initial">
@@ -576,13 +601,13 @@
             </div>
 
             <div class="colorbar-panel">
-                <strong>Sequential Scale (<span id="cb-title">Stress Utilization $\sigma_{vM}/\sigma_{\text{allow}}$</span>):</strong>
+                <strong>Sequential Scale (<span id="cb-title">Stress Utilization \( \sigma_{vM}/\sigma_{\mathrm{allow}} \)</span>):</strong>
                 <span>0.00</span>
                 <div class="colorbar-gradient"></div>
                 <span>1.00 (Limit)</span>
                 <span class="overlimit-marker"><span class="overlimit-swatch"></span> &gt; 1.00 Over Limit (Wireframe Cage + Label)</span>
                 <span style="color: var(--text-muted); width: 100%;">
-                    <em>Geometry note:</em> True outer diameters ($D_j \in [12, 46.6]\,\text{mm}$) are rendered in 3D with linked OrbitControls cameras; deformed centerlines are interpolated using cubic Hermite shape functions from nodal displacements and rotations.
+                    <em>Geometry note:</em> True outer diameters (\( D_j \in [12, 46.6]\,\mathrm{mm} \)) are rendered in 3D with linked OrbitControls cameras; deformed centerlines are interpolated using cubic Hermite shape functions from nodal displacements and rotations.
                 </span>
             </div>
         </section>
@@ -596,21 +621,21 @@
 
             <h3>2.1 Mathematical Statement (Nested Analysis and Design — NAND)</h3>
             <p>
-                We formulate the structural design problem in reduced-space (NAND) form where the state $\mathbf{u}(\mathbf{d}) \in \mathbb{R}^{108}$ is implicitly determined by the discretized 3D elasticity equilibrium equations:
+                We formulate the structural design problem in reduced-space (NAND) form where the state \( \mathbf{u}(\mathbf{d}) \in \mathbb{R}^{108} \) is implicitly determined by the discretized 3D elasticity equilibrium equations:
             </p>
             $$
             \begin{aligned}
-            \min_{\mathbf{d} \in \mathbb{R}^{25}} \quad & f(\mathbf{d}) = \sum_{m=1}^{10} \rho_{\text{Al}} \, A_m(\mathbf{d}) \, L_m(\mathbf{d}) \\
+            \min_{\mathbf{d} \in \mathbb{R}^{25}} \quad & f(\mathbf{d}) = \sum_{m=1}^{10} \rho_{\mathrm{Al}} \, A_m(\mathbf{d}) \, L_m(\mathbf{d}) \\
             \text{subject to} \quad & \mathbf{h}(\mathbf{d}, \mathbf{u}) = \mathbf{K}(\mathbf{d})\mathbf{u} - \mathbf{F}(\mathbf{d}) = \mathbf{0} \\
             & g_i(\mathbf{d}, \mathbf{u}(\mathbf{d})) \le 0, \quad i = 1, \dots, 11 \\
-            & \mathbf{d}_{\text{lower}} \le \mathbf{d} \le \mathbf{d}_{\text{upper}}
+            & \mathbf{d}_{\mathrm{lower}} \le \mathbf{d} \le \mathbf{d}_{\mathrm{upper}}
             \end{aligned}
             $$
             <p>
-                Each circular hollow section (CHS) member has outer diameter $D_g$, wall thickness $t_g$, inner diameter $D_{i,g} = D_g - 2t_g$, cross-sectional area $A_g = \frac{\pi}{4}(D_g^2 - D_{i,g}^2)$, second moment of area $I_g = \frac{\pi}{64}(D_g^4 - D_{i,g}^4)$, polar moment $J_g = 2I_g$, and radius of gyration $r_{g,g} = \sqrt{I_g/A_g}$.
+                Each circular hollow section (CHS) member has outer diameter \( D_g \), wall thickness \( t_g \), inner diameter \( D_{i,g} = D_g - 2t_g \), cross-sectional area \( A_g = \frac{\pi}{4}(D_g^2 - D_{i,g}^2) \), second moment of area \( I_g = \frac{\pi}{64}(D_g^4 - D_{i,g}^4) \), polar moment \( J_g = 2I_g \), and radius of gyration \( r_{g,g} = \sqrt{I_g/A_g} \).
             </p>
 
-            <h3>2.2 Design Variables ($\mathbf{d} \in \mathbb{R}^{25}$)</h3>
+            <h3>2.2 Design Variables (\( \mathbf{d} \in \mathbb{R}^{25} \))</h3>
             <div class="table-scroll">
                 <table class="data-table">
                     <thead>
@@ -620,14 +645,14 @@
                             <th>Category</th>
                             <th>Physical Description</th>
                             <th>Lower Bound</th>
-                            <th>Initial ($d_0$)</th>
+                            <th>Initial (\( d_0 \))</th>
                             <th>Upper Bound</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>0&ndash;6</td>
-                            <td>$D_{\text{seat}}, D_{\text{top}}, D_{\text{down}}, D_{\text{head}}, D_{\text{cs}}, D_{\text{ss}}, D_{\text{fork}}$</td>
+                            <td>\( D_{\mathrm{seat}}, D_{\mathrm{top}}, D_{\mathrm{down}}, D_{\mathrm{head}}, D_{\mathrm{cs}}, D_{\mathrm{ss}}, D_{\mathrm{fork}} \)</td>
                             <td>Sizing (7)</td>
                             <td>Tube outer diameters across 7 symmetric groups</td>
                             <td>12.0&ndash;30.0 mm</td>
@@ -636,7 +661,7 @@
                         </tr>
                         <tr>
                             <td>7&ndash;13</td>
-                            <td>$t_{\text{seat}}, t_{\text{top}}, t_{\text{down}}, t_{\text{head}}, t_{\text{cs}}, t_{\text{ss}}, t_{\text{fork}}$</td>
+                            <td>\( t_{\mathrm{seat}}, t_{\mathrm{top}}, t_{\mathrm{down}}, t_{\mathrm{head}}, t_{\mathrm{cs}}, t_{\mathrm{ss}}, t_{\mathrm{fork}} \)</td>
                             <td>Sizing (7)</td>
                             <td>Independent tube wall thicknesses</td>
                             <td>1.00 mm</td>
@@ -645,16 +670,16 @@
                         </tr>
                         <tr>
                             <td>14&ndash;21</td>
-                            <td>$(x_{N3}, z_{N3}), (x_{N4}, z_{N4}), (x_{N5}, z_{N5}), (x_{N6}, z_{N6})$</td>
+                            <td>\( (x_{N3}, z_{N3}), (x_{N4}, z_{N4}), (x_{N5}, z_{N5}), (x_{N6}, z_{N6}) \)</td>
                             <td>Shape (8)</td>
                             <td>In-plane coordinates of BB, seat cluster, head-top, head-bottom</td>
-                            <td>$[0.25, 0.27]$ m</td>
-                            <td>$[0.285, 0.905]$ m</td>
-                            <td>$[1.08, 1.02]$ m</td>
+                            <td>\( [0.25, 0.27] \) m</td>
+                            <td>\( [0.285, 0.905] \) m</td>
+                            <td>\( [1.08, 1.02] \) m</td>
                         </tr>
                         <tr>
                             <td>22&ndash;24</td>
-                            <td>$W_{\text{base}}, w_{\text{rear}}, w_{\text{front}}$</td>
+                            <td>\( W_{\mathrm{base}}, w_{\mathrm{rear}}, w_{\mathrm{front}} \)</td>
                             <td>Shape (3)</td>
                             <td>Wheelbase and rear/front dropout axle track widths</td>
                             <td>1.00, 0.12, 0.09 m</td>
@@ -665,69 +690,69 @@
                 </table>
             </div>
             <p>
-                <em>Active optimization subspace:</em> In the baseline sizing run (<code>optimize_sizing</code>), the 14 cross-sectional sizing variables ($D_1\dots D_7, t_1\dots t_7$) are actively optimized while the 11 shape coordinates remain fixed at the provisional geometry envelope until multi-start shape refinement is unlocked.
+                <em>Active optimization subspace:</em> In the baseline sizing run (<code>optimize_sizing</code>), the 14 cross-sectional sizing variables (\( D_1\dots D_7, t_1\dots t_7 \)) are actively optimized while the 11 shape coordinates remain fixed at the provisional geometry envelope until multi-start shape refinement is unlocked.
             </p>
 
-            <h3>2.3 Explicit Performance &amp; Manufacturing Constraints ($g_i \le 0$)</h3>
+            <h3>2.3 Explicit Performance &amp; Manufacturing Constraints (\( g_i \le 0 \))</h3>
             <div class="table-scroll">
                 <table class="data-table">
                     <thead>
                         <tr>
                             <th>Constraint ID</th>
-                            <th>Normalized Formula $g_i(\mathbf{d}, \mathbf{u}) \le 0$</th>
+                            <th>Normalized Formula \( g_i(\mathbf{d}, \mathbf{u}) \le 0 \)</th>
                             <th>Limit &amp; Engineering Justification</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td><strong>C1: Aggregated Stress (KS)</strong></td>
-                            <td>$\text{KS}_{\rho=100}\!\left(\frac{\sigma_{vM,e}}{\sigma_{\text{allow}}}\right) - 1 \le 0$</td>
-                            <td>$\sigma_{\text{allow}} = 138.0\,\text{MPa}$ ($S_y / 2.0$ for 6061-T6 welded/fatigue safety margin); smooth upper envelope over all 60 element end-stations across 3 load cases.</td>
+                            <td>\( \mathrm{KS}_{\rho=100}\!\left(\frac{\sigma_{vM,e}}{\sigma_{\mathrm{allow}}}\right) - 1 \le 0 \)</td>
+                            <td>\( \sigma_{\mathrm{allow}} = 138.0\,\mathrm{MPa} \) (\( S_y / 2.0 \) for 6061-T6 welded/fatigue safety margin); smooth upper envelope over all 60 element end-stations across 3 load cases.</td>
                         </tr>
                         <tr>
                             <td><strong>C2: True Peak Stress</strong></td>
-                            <td>$\max_{e,lc}\!\left(\frac{\sigma_{vM,e}}{\sigma_{\text{allow}}}\right) - 1 \le 0$</td>
-                            <td>Tracked alongside KS aggregation to verify true physical von Mises stress never exceeds $138.0\,\text{MPa}$.</td>
+                            <td>\( \max_{e,lc}\!\left(\frac{\sigma_{vM,e}}{\sigma_{\mathrm{allow}}}\right) - 1 \le 0 \)</td>
+                            <td>Tracked alongside KS aggregation to verify true physical von Mises stress never exceeds \( 138.0\,\mathrm{MPa} \).</td>
                         </tr>
                         <tr>
                             <td><strong>C3: Seat Vertical Deflection</strong></td>
-                            <td>$\frac{|u_{z,N4}(\text{LC1})|}{0.005\,\text{m}} - 1 \le 0$</td>
-                            <td>$\delta_{\text{seat}} \le 5.0\,\text{mm}$ under seated load case LC1 for rider comfort and ride quality.</td>
+                            <td>\( \frac{|u_{z,N4}(\mathrm{LC1})|}{0.005\,\mathrm{m}} - 1 \le 0 \)</td>
+                            <td>\( \delta_{\mathrm{seat}} \le 5.0\,\mathrm{mm} \) under seated load case LC1 for rider comfort and ride quality.</td>
                         </tr>
                         <tr>
                             <td><strong>C4: Bottom Bracket Stiffness</strong></td>
-                            <td>$\max_{\text{LC2}\pm}\frac{\sqrt{u_{y,N3}^2 + u_{z,N3}^2}}{0.002\,\text{m}} - 1 \le 0$</td>
-                            <td>$\delta_{BB} \le 2.0\,\text{mm}$ lateral/vertical resultant flex under $1800\,\text{N}$ standing sprint + $250\,\text{N}\cdot\text{m}$ pedaling torque (prevents chainring rub and power loss).</td>
+                            <td>\( \max_{\mathrm{LC2}\pm}\frac{\sqrt{u_{y,N3}^2 + u_{z,N3}^2}}{0.002\,\mathrm{m}} - 1 \le 0 \)</td>
+                            <td>\( \delta_{BB} \le 2.0\,\mathrm{mm} \) lateral/vertical resultant flex under \( 1800\,\mathrm{N} \) standing sprint + \( 250\,\mathrm{N}\cdot\mathrm{m} \) pedaling torque (prevents chainring rub and power loss).</td>
                         </tr>
                         <tr>
                             <td><strong>C5: Fundamental Frequency</strong></td>
-                            <td>$\frac{10.0\,\text{Hz}}{f_1} - 1 \le 0$</td>
-                            <td>$f_1 = \omega_1 / (2\pi) \ge 10.0\,\text{Hz}$ (well above $1.5\text{--}3.0\,\text{Hz}$ human pedaling cadence harmonics).</td>
+                            <td>\( \frac{10.0\,\mathrm{Hz}}{f_1} - 1 \le 0 \)</td>
+                            <td>\( f_1 = \omega_1 / (2\pi) \ge 10.0\,\mathrm{Hz} \) (well above \( 1.5\text{--}3.0\,\mathrm{Hz} \) human pedaling cadence harmonics).</td>
                         </tr>
                         <tr>
-                            <td><strong>C6: Linear Buckling ($N_1$)</strong></td>
-                            <td>$\frac{2.0}{\min_{\text{LC2}\pm}\alpha_{\text{cr}}} - 1 \le 0$</td>
-                            <td>$\alpha_{\text{cr}} \ge 2.0$ under peak asymmetric sprint load LC2 (guards thin-walled down tube and fork blades against Euler instability).</td>
+                            <td><strong>C6: Linear Buckling (\( N_1 \))</strong></td>
+                            <td>\( \frac{2.0}{\min_{\mathrm{LC2}\pm}\alpha_{\mathrm{cr}}} - 1 \le 0 \)</td>
+                            <td>\( \alpha_{\mathrm{cr}} \ge 2.0 \) under peak asymmetric sprint load LC2 (guards thin-walled down tube and fork blades against Euler instability).</td>
                         </tr>
                         <tr>
-                            <td><strong>C7 &amp; C8: Thin-Wall Ratio ($D/t$)</strong></td>
-                            <td>$\frac{\max_g(D_g/t_g)}{40} - 1 \le 0, \quad \frac{10}{\min_g(D_g/t_g)} - 1 \le 0$</td>
-                            <td>$10 \le D_g / t_g \le 40$ (hydroformed/butted bicycle tubing manufacturing limit to prevent local shell crimping/ovalization).</td>
+                            <td><strong>C7 &amp; C8: Thin-Wall Ratio (\( D/t \))</strong></td>
+                            <td>\( \frac{\max_g(D_g/t_g)}{40} - 1 \le 0, \quad \frac{10}{\min_g(D_g/t_g)} - 1 \le 0 \)</td>
+                            <td>\( 10 \le D_g / t_g \le 40 \) (hydroformed/butted bicycle tubing manufacturing limit to prevent local shell crimping/ovalization).</td>
                         </tr>
                         <tr>
                             <td><strong>C9: BB Ground Clearance</strong></td>
-                            <td>$\frac{0.270\,\text{m}}{z_{N3}} - 1 \le 0$</td>
-                            <td>$z_{N3} \ge 0.270\,\text{m}$ (ISO 4210 / MTB pedal-strike clearance above ground plane).</td>
+                            <td>\( \frac{0.270\,\mathrm{m}}{z_{N3}} - 1 \le 0 \)</td>
+                            <td>\( z_{N3} \ge 0.270\,\mathrm{m} \) (ISO 4210 / MTB pedal-strike clearance above ground plane).</td>
                         </tr>
                         <tr>
                             <td><strong>C10: Minimum Member Length</strong></td>
-                            <td>$\frac{0.050\,\text{m}}{\min_m L_m} - 1 \le 0$</td>
-                            <td>$L_m \ge 0.050\,\text{m}$ (prevents head-tube or stay node collapse during shape optimization).</td>
+                            <td>\( \frac{0.050\,\mathrm{m}}{\min_m L_m} - 1 \le 0 \)</td>
+                            <td>\( L_m \ge 0.050\,\mathrm{m} \) (prevents head-tube or stay node collapse during shape optimization).</td>
                         </tr>
                         <tr>
                             <td><strong>C11: Member Slenderness</strong></td>
-                            <td>$\max_m\!\left(\frac{L_m / r_{g,m}}{200}\right) - 1 \le 0$</td>
-                            <td>$L_m / r_{g,m} \le 200$ (AISC 360 compression slenderness limit protecting lightly loaded stays).</td>
+                            <td>\( \max_m\!\left(\frac{L_m / r_{g,m}}{200}\right) - 1 \le 0 \)</td>
+                            <td>\( L_m / r_{g,m} \le 200 \) (AISC 360 compression slenderness limit protecting lightly loaded stays).</td>
                         </tr>
                     </tbody>
                 </table>
@@ -741,17 +766,17 @@
                 The structural solver is written from scratch in Python (<code>frame_element.py</code>, <code>assembly.py</code>, <code>analysis.py</code>) using double-precision <code>scipy.sparse</code> CSR matrices.
             </p>
             <ul>
-                <li><strong>Governing PDE &amp; Element Formulation:</strong> 3D linear elasticity reduced to 12-DOF two-node Euler-Bernoulli spatial frame elements ($u_x, u_y, u_z, \theta_x, \theta_y, \theta_z$ per node) capturing axial extension, Saint-Venant torsion, and biaxial cubic Hermite bending. Local member axes select the least-aligned global basis vector to eliminate singularities on vertical/near-vertical members.</li>
-                <li><strong>Discretization &amp; Topology:</strong> 8 primary structural joints ($N_1\dots N_8$) connected by 10 physical members ($M_1$: seat tube, $M_2$: top tube, $M_3$: down tube, $M_4$: head tube, $M_5\text{--}M_6$: chainstays, $M_7\text{--}M_8$: seatstays, $M_9\text{--}M_{10}$: fork blades). Each member is subdivided into 2 beam elements ($20$ elements, $18$ nodes, $108$ global DOFs) so interior bending and member-level buckling modes are resolved.</li>
-                <li><strong>Boundary Conditions (Statically Determinate Dropout Supports):</strong> Rear left dropout $N_1$ pinned ($u_x = u_y = u_z = 0$); rear right dropout $N_2$ constrained vertically ($u_z = 0$); front left dropout $N_7$ constrained laterally and vertically ($u_y = u_z = 0$); front right dropout $N_8$ constrained vertically ($u_z = 0$). This prevents rigid-body drift without inducing artificial thermal/axially-clamped reaction artifacts across the dropout axles.</li>
+                <li><strong>Governing PDE &amp; Element Formulation:</strong> 3D linear elasticity reduced to 12-DOF two-node Euler-Bernoulli spatial frame elements (\( u_x, u_y, u_z, \theta_x, \theta_y, \theta_z \) per node) capturing axial extension, Saint-Venant torsion, and biaxial cubic Hermite bending. Local member axes select the least-aligned global basis vector to eliminate singularities on vertical/near-vertical members.</li>
+                <li><strong>Discretization &amp; Topology:</strong> 8 primary structural joints (\( N_1\dots N_8 \)) connected by 10 physical members (\( M_1 \): seat tube, \( M_2 \): top tube, \( M_3 \): down tube, \( M_4 \): head tube, \( M_5\text{--}M_6 \): chainstays, \( M_7\text{--}M_8 \): seatstays, \( M_9\text{--}M_{10} \): fork blades). Each member is subdivided into 2 beam elements (20 elements, 18 nodes, 108 global DOFs) so interior bending and member-level buckling modes are resolved.</li>
+                <li><strong>Boundary Conditions (Statically Determinate Dropout Supports):</strong> Rear left dropout \( N_1 \) pinned (\( u_x = u_y = u_z = 0 \)); rear right dropout \( N_2 \) constrained vertically (\( u_z = 0 \)); front left dropout \( N_7 \) constrained laterally and vertically (\( u_y = u_z = 0 \)); front right dropout \( N_8 \) constrained vertically (\( u_z = 0 \)). This prevents rigid-body drift without inducing artificial thermal/axially-clamped reaction artifacts across the dropout axles.</li>
                 <li><strong>Multi-Load-Case Envelope:</strong>
                     <ol>
-                        <li><code>LC1</code> (Seated Ride): $F_z = -1544.6\,\text{N}$ at seat cluster $N_4$, $F_z = -662.0\,\text{N}$ at head-tube top $N_5$, plus distributed self-weight ($g = 9.80665\,\text{m/s}^2$).</li>
-                        <li><code>LC2_POS</code> (Out-of-Saddle Sprint, Right Pedal): $F_z = -1800.0\,\text{N}$ and pedaling torque $M_y = +250.0\,\text{N}\cdot\text{m}$ at bottom bracket $N_3$, lateral handlebar pull $F_y = +300.0\,\text{N}$ at $N_5$, plus self-weight.</li>
-                        <li><code>LC2_NEG</code> (Out-of-Saddle Sprint, Left Pedal): Mirrored asymmetric loading ($F_z = -1800.0\,\text{N}, M_y = -250.0\,\text{N}\cdot\text{m}$ at $N_3$; $F_y = -300.0\,\text{N}$ at $N_5$).</li>
+                        <li><code>LC1</code> (Seated Ride): \( F_z = -1544.6\,\mathrm{N} \) at seat cluster \( N_4 \), \( F_z = -662.0\,\mathrm{N} \) at head-tube top \( N_5 \), plus distributed self-weight (\( g = 9.80665\,\mathrm{m/s}^2 \)).</li>
+                        <li><code>LC2_POS</code> (Out-of-Saddle Sprint, Right Pedal): \( F_z = -1800.0\,\mathrm{N} \) and pedaling torque \( M_y = +250.0\,\mathrm{N}\cdot\mathrm{m} \) at bottom bracket \( N_3 \), lateral handlebar pull \( F_y = +300.0\,\mathrm{N} \) at \( N_5 \), plus self-weight.</li>
+                        <li><code>LC2_NEG</code> (Out-of-Saddle Sprint, Left Pedal): Mirrored asymmetric loading (\( F_z = -1800.0\,\mathrm{N}, M_y = -250.0\,\mathrm{N}\cdot\mathrm{m} \) at \( N_3 \); \( F_y = -300.0\,\mathrm{N} \) at \( N_5 \)).</li>
                     </ol>
                 </li>
-                <li><strong>Key Modeling Assumptions:</strong> Rigid welded joints at frame intersections; isotropic homogeneous 6061-T6 aluminum ($E = 68.3\,\text{GPa}, \nu = 0.33, \rho = 2700\,\text{kg/m}^3$); uniform prismatic cross-sections per tube group; transverse shear deformation neglected ($L/D &gt; 10$).</li>
+                <li><strong>Key Modeling Assumptions:</strong> Rigid welded joints at frame intersections; isotropic homogeneous 6061-T6 aluminum (\( E = 68.3\,\mathrm{GPa}, \nu = 0.33, \rho = 2700\,\mathrm{kg/m}^3 \)); uniform prismatic cross-sections per tube group; transverse shear deformation neglected (\( L/D &gt; 10 \)).</li>
             </ul>
         </section>
 
@@ -776,58 +801,58 @@
                     <tbody>
                         <tr>
                             <td><strong>V1</strong></td>
-                            <td>3D Cantilever Tube ($L=1.2\,\text{m}$, coupled axial $1200\,\text{N}$, biaxial tip shear $-700/900\,\text{N}$, torque $180\,\text{N}\cdot\text{m}$)</td>
-                            <td>$\delta = PL^3/(3EI)$, $\delta_x = PL/(EA)$, $\phi_x = TL/(GJ)$</td>
-                            <td>$1.11 \times 10^{-15}$ (rel. error)</td>
-                            <td>$\le 1.0 \times 10^{-10}$</td>
+                            <td>3D Cantilever Tube (\( L=1.2\,\mathrm{m} \), coupled axial \( 1200\,\mathrm{N} \), biaxial tip shear \( -700/900\,\mathrm{N} \), torque \( 180\,\mathrm{N}\cdot\mathrm{m} \))</td>
+                            <td>\( \delta = PL^3/(3EI) \), \( \delta_x = PL/(EA) \), \( \phi_x = TL/(GJ) \)</td>
+                            <td>\( 1.11 \times 10^{-15} \) (rel. error)</td>
+                            <td>\( \le 1.0 \times 10^{-10} \)</td>
                             <td><span class="badge badge-pass">Pass</span></td>
                         </tr>
                         <tr>
                             <td><strong>V2</strong></td>
-                            <td>Simply Supported Beam under uniform load $q_z = -600\,\text{N/m}$, Hermite sample at $x = 0.37L$ ($N_e \in \{2,4,8,16\}$)</td>
-                            <td>$\delta(x) = \frac{|q_z|x(L^3 - 2Lx^2 + x^3)}{24EI}$ (monotone $O(h^4)$ convergence)</td>
-                            <td>$1.42 \times 10^{-5}$ (at $N_e=16$)</td>
-                            <td>$\le 2.0 \times 10^{-3}$</td>
+                            <td>Simply Supported Beam under uniform load \( q_z = -600\,\mathrm{N/m} \), Hermite sample at \( x = 0.37L \) (\( N_e \in \{2,4,8,16\} \))</td>
+                            <td>\( \delta(x) = \frac{|q_z|x(L^3 - 2Lx^2 + x^3)}{24EI} \) (monotone \( O(h^4) \) convergence)</td>
+                            <td>\( 1.42 \times 10^{-5} \) (at \( N_e=16 \))</td>
+                            <td>\( \le 2.0 \times 10^{-3} \)</td>
                             <td><span class="badge badge-pass">Pass</span></td>
                         </tr>
                         <tr>
                             <td><strong>V3</strong></td>
-                            <td>Simply Supported Beam Fundamental Natural Frequency ($L=3.0\,\text{m}$, 24 elements, consistent mass matrix)</td>
-                            <td>$f_1 = \frac{\pi}{2L^2}\sqrt{\frac{EI}{\rho A}}$</td>
-                            <td>$2.85 \times 10^{-6}$ (rel. error)</td>
-                            <td>$\le 5.0 \times 10^{-3}$</td>
+                            <td>Simply Supported Beam Fundamental Natural Frequency (\( L=3.0\,\mathrm{m} \), 24 elements, consistent mass matrix)</td>
+                            <td>\( f_1 = \frac{\pi}{2L^2}\sqrt{\frac{EI}{\rho A}} \)</td>
+                            <td>\( 2.85 \times 10^{-6} \) (rel. error)</td>
+                            <td>\( \le 5.0 \times 10^{-3} \)</td>
                             <td><span class="badge badge-pass">Pass</span></td>
                         </tr>
                         <tr>
                             <td><strong>V4</strong></td>
-                            <td>Euler Pinned-Pinned Column Buckling ($L=2.0\,\text{m}$, 12 elements, geometric stiffness $K_G$)</td>
-                            <td>$P_{\text{cr}} = \frac{\pi^2 EI}{L^2}$</td>
-                            <td>$3.18 \times 10^{-6}$ (rel. error)</td>
-                            <td>$\le 2.0 \times 10^{-3}$</td>
+                            <td>Euler Pinned-Pinned Column Buckling (\( L=2.0\,\mathrm{m} \), 12 elements, geometric stiffness \( K_G \))</td>
+                            <td>\( P_{\mathrm{cr}} = \frac{\pi^2 EI}{L^2} \)</td>
+                            <td>\( 3.18 \times 10^{-6} \) (rel. error)</td>
+                            <td>\( \le 2.0 \times 10^{-3} \)</td>
                             <td><span class="badge badge-pass">Pass</span></td>
                         </tr>
                         <tr>
                             <td><strong>V5</strong></td>
-                            <td>3D Rigid-Body Modes (unconstrained inclined element) &amp; Global Equilibrium ($\sum \mathbf{F} + \mathbf{R}, \sum \mathbf{M}$)</td>
-                            <td>Exactly 6 zero eigenvalues ($\lambda \le 10^{-9}\lambda_{\max}$); zero residual</td>
-                            <td>6 modes; $2.4 \times 10^{-15}$ norm. residual</td>
-                            <td>$\le 1.0 \times 10^{-9}$</td>
+                            <td>3D Rigid-Body Modes (unconstrained inclined element) &amp; Global Equilibrium (\( \sum \mathbf{F} + \mathbf{R}, \sum \mathbf{M} \))</td>
+                            <td>Exactly 6 zero eigenvalues (\( \lambda \le 10^{-9}\lambda_{\max} \)); zero residual</td>
+                            <td>6 modes; \( 2.4 \times 10^{-15} \) norm. residual</td>
+                            <td>\( \le 1.0 \times 10^{-9} \)</td>
                             <td><span class="badge badge-pass">Pass</span></td>
                         </tr>
                         <tr>
                             <td><strong>V6</strong></td>
-                            <td>Full 25-Variable Discrete Adjoint vs. Central Finite Differences &amp; Directional Taylor Remainder Slope ($u_{z,N4}$)</td>
-                            <td>Rel. gradient error $\le 2\times 10^{-4}$; Taylor remainder slope $= 2.00$</td>
-                            <td>Rel. err $1.4 \times 10^{-9}$; slope $= 2.000$</td>
-                            <td>$\le 0.15$</td>
+                            <td>Full 25-Variable Discrete Adjoint vs. Central Finite Differences &amp; Directional Taylor Remainder Slope (\( u_{z,N4} \))</td>
+                            <td>Rel. gradient error \( \le 2\times 10^{-4} \); Taylor remainder slope \( = 2.00 \)</td>
+                            <td>Rel. err \( 1.4 \times 10^{-9} \); slope \( = 2.000 \)</td>
+                            <td>\( \le 0.15 \)</td>
                             <td><span class="badge badge-pass">Pass</span></td>
                         </tr>
                         <tr>
                             <td><strong>V7</strong></td>
-                            <td>Full-Frame Prestress Buckling Scaling Invariance ($s \cdot \alpha_{\text{cr}}(s\mathbf{F})$ for $s \in \{0.5, 1.0, 2.0\}$)</td>
-                            <td>Physical critical load $P_{\text{cr}} = s \cdot \alpha_{\text{cr}}$ invariant to load scale $s$</td>
-                            <td>$4.1 \times 10^{-15}$ (rel. spread)</td>
-                            <td>$\le 1.0 \times 10^{-8}$</td>
+                            <td>Full-Frame Prestress Buckling Scaling Invariance (\( s \cdot \alpha_{\mathrm{cr}}(s\mathbf{F}) \) for \( s \in \{0.5, 1.0, 2.0\} \))</td>
+                            <td>Physical critical load \( P_{\mathrm{cr}} = s \cdot \alpha_{\mathrm{cr}} \) invariant to load scale \( s \)</td>
+                            <td>\( 4.1 \times 10^{-15} \) (rel. spread)</td>
+                            <td>\( \le 1.0 \times 10^{-8} \)</td>
                             <td><span class="badge badge-pass">Pass</span></td>
                         </tr>
                     </tbody>
@@ -841,7 +866,7 @@
 
             <h3>5.1 Discrete Adjoint Formulation</h3>
             <p>
-                Consider any scalar performance functional $J(\mathbf{d}, \mathbf{u}(\mathbf{d}))$ (such as nodal displacement $u_{z,N4}$ or the Kreisselmeier-Steinhauser stress aggregate $\text{KS}_\rho$) governed by the linear state equation $\mathbf{h}(\mathbf{d}, \mathbf{u}) = \mathbf{K}(\mathbf{d})\mathbf{u} - \mathbf{F}(\mathbf{d}) = \mathbf{0}$. Augmenting $J$ with the adjoint vector $\boldsymbol{\lambda}$ gives $\mathcal{L} = J(\mathbf{d}, \mathbf{u}) + \boldsymbol{\lambda}^T(\mathbf{K}\mathbf{u} - \mathbf{F})$. Enforcing $\partial \mathcal{L} / \partial \mathbf{u} = \mathbf{0}$ yields the symmetric adjoint linear system on the free degrees of freedom:
+                Consider any scalar performance functional \( J(\mathbf{d}, \mathbf{u}(\mathbf{d})) \) (such as nodal displacement \( u_{z,N4} \) or the Kreisselmeier-Steinhauser stress aggregate \( \mathrm{KS}_\rho \)) governed by the linear state equation \( \mathbf{h}(\mathbf{d}, \mathbf{u}) = \mathbf{K}(\mathbf{d})\mathbf{u} - \mathbf{F}(\mathbf{d}) = \mathbf{0} \). Augmenting \( J \) with the adjoint vector \( \boldsymbol{\lambda} \) gives \( \mathcal{L} = J(\mathbf{d}, \mathbf{u}) + \boldsymbol{\lambda}^T(\mathbf{K}\mathbf{u} - \mathbf{F}) \). Enforcing \( \partial \mathcal{L} / \partial \mathbf{u} = \mathbf{0} \) yields the symmetric adjoint linear system on the free degrees of freedom:
             </p>
             $$
             \mathbf{K}_{ff}^T \boldsymbol{\lambda}_f = -\left( \frac{\partial J}{\partial \mathbf{u}_f} \right)^T, \qquad \frac{dJ}{dd_j} = \frac{\partial J}{\partial d_j} + \boldsymbol{\lambda}_f^T \left( \frac{\partial \mathbf{F}_f}{\partial d_j} - \frac{\partial \mathbf{K}_{ff}}{\partial d_j}\mathbf{u}_f \right)
@@ -850,27 +875,42 @@
                 For eigenproblem constraints, implicit differentiation avoids differentiating through the iterative Lanczos solver (<code>eigsh</code>):
             </p>
             <ul>
-                <li><strong>Natural Frequency ($C_5$):</strong> For $\mathbf{K}\boldsymbol{\phi}_1 = \omega_1^2 \mathbf{M}\boldsymbol{\phi}_1$ normalized with $\boldsymbol{\phi}_1^T\mathbf{M}\boldsymbol{\phi}_1 = 1$,
+                <li><strong>Natural Frequency (\( C_5 \)):</strong> For \( \mathbf{K}\boldsymbol{\phi}_1 = \omega_1^2 \mathbf{M}\boldsymbol{\phi}_1 \) normalized with \( \boldsymbol{\phi}_1^T\mathbf{M}\boldsymbol{\phi}_1 = 1 \),
                     $$\frac{d(\omega_1^2)}{dd_j} = \boldsymbol{\phi}_1^T \left( \frac{\partial \mathbf{K}}{\partial d_j} - \omega_1^2 \frac{\partial \mathbf{M}}{\partial d_j} \right) \boldsymbol{\phi}_1$$
                 </li>
-                <li><strong>Linear Buckling ($C_6$, Nonlinear $N_1$):</strong> Writing $(-\mathbf{K}_G(\mathbf{u}))\boldsymbol{\psi} = \mu \mathbf{K}\boldsymbol{\psi}$ with $\mu = 1/\alpha_{\text{cr}}$ and $\boldsymbol{\psi}^T\mathbf{K}\boldsymbol{\psi} = 1$,
-                    $$\frac{d\mu}{dd_j} = \boldsymbol{\psi}^T \left( -\frac{\partial \mathbf{K}_G}{\partial d_j} - \mu \frac{\partial \mathbf{K}}{\partial d_j} \right) \boldsymbol{\psi} + \boldsymbol{\lambda}_{\text{buck}}^T \left( \frac{\partial \mathbf{F}}{\partial d_j} - \frac{\partial \mathbf{K}}{\partial d_j}\mathbf{u} \right)$$
-                    where the additional adjoint vector $\boldsymbol{\lambda}_{\text{buck}}$ accounts for the implicit dependence of member axial forces $N_e(\mathbf{u}(\mathbf{d}))$ in $\mathbf{K}_G$ on the static displacement state $\mathbf{u}$.
+                <li><strong>Linear Buckling (\( C_6 \), Nonlinear \( N_1 \)):</strong> Writing \( (-\mathbf{K}_G(\mathbf{u}))\boldsymbol{\psi} = \mu \mathbf{K}\boldsymbol{\psi} \) with \( \mu = 1/\alpha_{\mathrm{cr}} \) and \( \boldsymbol{\psi}^T\mathbf{K}\boldsymbol{\psi} = 1 \),
+                    $$\frac{d\mu}{dd_j} = \boldsymbol{\psi}^T \left( -\frac{\partial \mathbf{K}_G}{\partial d_j} - \mu \frac{\partial \mathbf{K}}{\partial d_j} \right) \boldsymbol{\psi} + \boldsymbol{\lambda}_{\mathrm{buck}}^T \left( \frac{\partial \mathbf{F}}{\partial d_j} - \frac{\partial \mathbf{K}}{\partial d_j}\mathbf{u} \right)$$
+                    where the additional adjoint vector \( \boldsymbol{\lambda}_{\mathrm{buck}} \) accounts for the implicit dependence of member axial forces \( N_e(\mathbf{u}(\mathbf{d})) \) in \( \mathbf{K}_G \) on the static displacement state \( \mathbf{u} \).
                 </li>
             </ul>
 
-            <h3>5.2 Gradient Verification &amp; Taylor Remainder Test</h3>
+            <h3>5.2 Multi-Variable Sensitivity &amp; Parity Diagnostic Plot</h3>
             <p>
-                Using <code>adjoint_displacement_gradient</code> and <code>taylor_remainders</code> in <code>sensitivity.py</code>, the discrete adjoint gradient was verified across all 25 sizing and shape variables against central finite differences ($\epsilon_{\text{rel}} = 5\times 10^{-6}$). Perturbing along a random scaled direction $\mathbf{v}$ confirms second-order $O(\epsilon^2)$ convergence of the Taylor remainder $R(\epsilon) = |J(\mathbf{d} + \epsilon\mathbf{v}) - J(\mathbf{d}) - \epsilon \nabla J \cdot \mathbf{v}|$ with median log-log slope <strong>2.000</strong>.
+                Using <code>adjoint_displacement_gradient</code> and <code>taylor_remainders</code> in <code>sensitivity.py</code>, we evaluated the structural sensitivities across sizing (radii and wall thicknesses) and nodal shape coordinates, verifying exact parity against central finite differences (\( \epsilon_{\mathrm{rel}} = 5\times 10^{-6} \)):
+            </p>
+
+            <figure class="figure-box">
+                <img src="Screenshot 2026-11-16 163350.png" alt="MAE 598 Project 4: 23-Variable Adjoint and Structural Sensitivity Analysis">
+                <figcaption>
+                    <strong>Figure 5.1: 23-Variable Adjoint &amp; Structural Sensitivity Analysis.</strong>
+                    <em>Left:</em> Mass objective sensitivity (\( \nabla_{\mathbf{d}} f \)), showing that wall thickness parameters (\( t_1\dots t_8 \), particularly the down tube \( t_2 \) and top tube \( t_1 \)) dominate frame mass sensitivity compared to outer radii or shape coordinates.
+                    <em>Center:</em> Performance constraint sensitivities comparing vertical deflection (\( g_{R3} \)) against linearized buckling (\( g_{R5} \)), demonstrating that reinforcing seatstay and chainstay dimensions sharply improves the buckling safety margin (\( \partial g_{R5}/\partial d_k &lt; 0 \)).
+                    <em>Right:</em> Log-log gradient verification parity plot confirming exact \( y = x \) agreement between the single-solve discrete-adjoint gradient and central finite differences across all 23 design variables.
+                </figcaption>
+            </figure>
+
+            <h3>5.3 Taylor Remainder Convergence &amp; Computational Cost Scaling</h3>
+            <p>
+                Perturbing along a random scaled direction \( \mathbf{v} \) confirms second-order \( O(\epsilon^2) \) convergence of the Taylor remainder \( R(\epsilon) = |J(\mathbf{d} + \epsilon\mathbf{v}) - J(\mathbf{d}) - \epsilon \nabla J \cdot \mathbf{v}| \) with median log-log slope <strong>2.000</strong>, while reducing gradient evaluation wall time by <strong>23.6&times;</strong> compared to central finite differences.
             </p>
 
             <div class="chart-grid">
                 <div class="chart-card">
-                    <h4>Taylor Remainder Convergence ($R(\epsilon)$ vs. Step Size $\epsilon$)</h4>
+                    <h4>Taylor Remainder Convergence (\( R(\epsilon) \) vs. Step Size \( \epsilon \))</h4>
                     <svg id="svg-taylor" viewBox="0 0 420 230" width="100%" height="230" aria-label="Taylor Test Log-Log Plot"></svg>
                 </div>
                 <div class="chart-card">
-                    <h4>Gradient Cost Scaling: Adjoint vs. Finite Differences ($n = 25$)</h4>
+                    <h4>Gradient Cost Scaling: Adjoint vs. Finite Differences (\( n = 25 \))</h4>
                     <div class="table-scroll">
                         <table class="data-table">
                             <thead>
@@ -886,19 +926,19 @@
                                     <td><strong>Discrete Adjoint</strong></td>
                                     <td><strong>2 solves</strong> (1 fwd + 1 adj)</td>
                                     <td><strong>0.014 s</strong></td>
-                                    <td>Machine precision ($10^{-14}$)</td>
+                                    <td>Machine precision (\( 10^{-14} \))</td>
                                 </tr>
                                 <tr>
                                     <td>Forward Finite Diff.</td>
-                                    <td>$n + 1 = 26$ solves</td>
+                                    <td>\( n + 1 = 26 \) solves</td>
                                     <td>0.168 s (12&times; slower)</td>
                                     <td>Truncation-step sensitive</td>
                                 </tr>
                                 <tr>
                                     <td>Central Finite Diff.</td>
-                                    <td>$2n + 1 = 51$ solves</td>
+                                    <td>\( 2n + 1 = 51 \) solves</td>
                                     <td>0.331 s (23.6&times; slower)</td>
-                                    <td>$O(\epsilon^2)$, 25&times; more solves</td>
+                                    <td>\( O(\epsilon^2) \), 25&times; more solves</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -911,7 +951,7 @@
         <section id="sec-optimization" class="report-section">
             <h2>6. Optimization Setup, Convergence History &amp; KKT Interpretation</h2>
             <p>
-                In <code>optimization.py</code>, design variables are normalized to unity at the starting design ($x_j = d_j / d_{j,0}$) so all decision variables and box bounds reside on $O(1)$ scales. Inequalities are formulated in standard smooth form $g_i(\mathbf{x}) \le 0$ and solved via SciPy's <code>SLSQP</code> (`ftol = 1e-8`).
+                In <code>optimization.py</code>, design variables are normalized to unity at the starting design (\( x_j = d_j / d_{j,0} \)) so all decision variables and box bounds reside on \( O(1) \) scales. Inequalities are formulated in standard smooth form \( g_i(\mathbf{x}) \le 0 \) and solved via SciPy's <code>SLSQP</code> (<code>ftol = 1e-8</code>).
             </p>
 
             <div class="chart-card" style="margin-bottom: 1.25rem;">
@@ -921,24 +961,24 @@
 
             <h3>6.1 Active Constraints &amp; KKT Multiplier Interpretation</h3>
             <p>
-                At convergence (Iteration 45, $m^* = 1.05974\,\text{kg}$), the KKT complementarity conditions $\mu_i^* g_i(\mathbf{x}^*) = 0$ identify three active physical/manufacturing boundaries ($\mu_i^* &gt; 0$, $|g_i| &lt; 10^{-8}$) and several bound-active tube variables:
+                At convergence (Iteration 45, \( m^* = 1.05974\,\mathrm{kg} \)), the KKT complementarity conditions \( \mu_i^* g_i(\mathbf{x}^*) = 0 \) identify three active physical/manufacturing boundaries (\( \mu_i^* &gt; 0 \), \( |g_i| &lt; 10^{-8} \)) and several bound-active tube variables:
             </p>
             <ul>
-                <li><strong>Active Constraint 1 — Aggregated von Mises Stress (<code>stress_KS</code>, $g_1 = +7.00\times 10^{-9} \approx 0$):</strong> Driven by bottom-bracket torsion and asymmetric sprint bending in <code>LC2_POS</code> / <code>LC2_NEG</code>. Note that because $\text{KS}_{\rho=100}$ is a conservative smooth upper bound, the true physical maximum stress utilization is $0.99942 \le 1.0$ (<strong>strictly feasible physically</strong>, $\sigma_{vM,\max} = 137.92\,\text{MPa} &lt; 138.0\,\text{MPa}$).</li>
-                <li><strong>Active Constraint 2 — Bottom Bracket Resultant Stiffness (<code>bottom_bracket_resultant_displacement</code>, $g_4 = +2.99\times 10^{-10} \approx 0$):</strong> Reaches the exact $\delta_{BB} = 2.000\,\text{mm}$ serviceability limit, which forces the optimizer to <em>increase</em> chainstay outer diameter from $22.0\,\text{mm}$ to $34.47\,\text{mm}$ (+56.7%) and fork blade diameter from $32.0\,\text{mm}$ to $41.77\,\text{mm}$ (+30.5%) while thinning their walls to $1.00\text{--}1.04\,\text{mm}$ to maximize bending inertia $I \propto D^3 t$ per unit mass.</li>
-                <li><strong>Active Constraint 3 — Thin-Wall Manufacturing Ratio (<code>maximum_D_over_t</code>, $g_7 = +1.90\times 10^{-10} \approx 0$):</strong> Down tube ($46.57 / 1.164 = 40.00$), head tube ($41.13 / 1.031 = 39.90$), and fork ($41.77 / 1.044 = 40.00$) hit the upper $D/t = 40.0$ local buckling/hydroforming ceiling. Relaxing $D/t_{\max}$ from $40$ to $45$ would yield an additional $\sim 0.045\,\text{kg}$ mass saving according to the KKT shadow price $\partial m^* / \partial (D/t)_{\max}$.</li>
-                <li><strong>Inactive Constraints ($\mu_i^* = 0$):</strong> Seat vertical deflection ($0.814\,\text{mm} \le 5.0\,\text{mm}$), first natural frequency ($48.50\,\text{Hz} \ge 10.0\,\text{Hz}$), linear buckling ($\alpha_{\text{cr}} = 3.213 \ge 2.0$), and member slenderness ($144.98 \le 200.0$) remain strictly inside the feasible interior.</li>
+                <li><strong>Active Constraint 1 — Aggregated von Mises Stress (<code>stress_KS</code>, \( g_1 = +7.00\times 10^{-9} \approx 0 \)):</strong> Driven by bottom-bracket torsion and asymmetric sprint bending in <code>LC2_POS</code> / <code>LC2_NEG</code>. Note that because \( \mathrm{KS}_{\rho=100} \) is a conservative smooth upper bound, the true physical maximum stress utilization is \( 0.99942 \le 1.0 \) (<strong>strictly feasible physically</strong>, \( \sigma_{vM,\max} = 137.92\,\mathrm{MPa} &lt; 138.0\,\mathrm{MPa} \)).</li>
+                <li><strong>Active Constraint 2 — Bottom Bracket Resultant Stiffness (<code>bottom_bracket_resultant_displacement</code>, \( g_4 = +2.99\times 10^{-10} \approx 0 \)):</strong> Reaches the exact \( \delta_{BB} = 2.000\,\mathrm{mm} \) serviceability limit, which forces the optimizer to <em>increase</em> chainstay outer diameter from \( 22.0\,\mathrm{mm} \) to \( 34.47\,\mathrm{mm} \) (+56.7%) and fork blade diameter from \( 32.0\,\mathrm{mm} \) to \( 41.77\,\mathrm{mm} \) (+30.5%) while thinning their walls to \( 1.00\text{--}1.04\,\mathrm{mm} \) to maximize bending inertia \( I \propto D^3 t \) per unit mass.</li>
+                <li><strong>Active Constraint 3 — Thin-Wall Manufacturing Ratio (<code>maximum_D_over_t</code>, \( g_7 = +1.90\times 10^{-10} \approx 0 \)):</strong> Down tube (\( 46.57 / 1.164 = 40.00 \)), head tube (\( 41.13 / 1.031 = 39.90 \)), and fork (\( 41.77 / 1.044 = 40.00 \)) hit the upper \( D/t = 40.0 \) local buckling/hydroforming ceiling. Relaxing \( D/t_{\max} \) from \( 40 \) to \( 45 \) would yield an additional \( \sim 0.045\,\mathrm{kg} \) mass saving according to the KKT shadow price \( \partial m^* / \partial (D/t)_{\max} \).</li>
+                <li><strong>Inactive Constraints (\( \mu_i^* = 0 \)):</strong> Seat vertical deflection (\( 0.814\,\mathrm{mm} \le 5.0\,\mathrm{mm} \)), first natural frequency (\( 48.50\,\mathrm{Hz} \ge 10.0\,\mathrm{Hz} \)), linear buckling (\( \alpha_{\mathrm{cr}} = 3.213 \ge 2.0 \)), and member slenderness (\( 144.98 \le 200.0 \)) remain strictly inside the feasible interior.</li>
             </ul>
         </section>
 
         <!-- SECTION 7: NONLINEAR COMPONENT (N1) -->
         <section id="sec-nonlinear" class="report-section">
-            <h2>7. Mandatory Nonlinear Component ($N_1$): Linearized Buckling Stability</h2>
+            <h2>7. Mandatory Nonlinear Component (\( N_1 \)): Linearized Buckling Stability</h2>
             <p>
-                To capture geometric stiffness effects under high compressive sprint forces, we implement <strong>Route $N_1$ (Linearized Buckling Eigenproblem)</strong> in <code>analysis.py</code> and <code>assembly.py</code>. First, the linear static solve $\mathbf{K}\mathbf{u} = \mathbf{F}$ yields member axial forces $N_e$. Compressive forces ($N_e &lt; 0$) soften lateral bending stiffness via the consistent geometric stiffness matrix $\mathbf{K}_G(N_e)$, leading to the generalized eigenvalue problem:
+                To capture geometric stiffness effects under high compressive sprint forces, we implement <strong>Route \( N_1 \) (Linearized Buckling Eigenproblem)</strong> in <code>analysis.py</code> and <code>assembly.py</code>. First, the linear static solve \( \mathbf{K}\mathbf{u} = \mathbf{F} \) yields member axial forces \( N_e \). Compressive forces (\( N_e &lt; 0 \)) soften lateral bending stiffness via the consistent geometric stiffness matrix \( \mathbf{K}_G(N_e) \), leading to the generalized eigenvalue problem:
             </p>
             $$
-            \left( \mathbf{K}_{ff} + \alpha_{\text{cr}} \mathbf{K}_{G,ff}(\mathbf{u}) \right) \boldsymbol{\psi} = \mathbf{0}, \qquad \alpha_{\text{cr}} \ge 2.0
+            \left( \mathbf{K}_{ff} + \alpha_{\mathrm{cr}} \mathbf{K}_{G,ff}(\mathbf{u}) \right) \boldsymbol{\psi} = \mathbf{0}, \qquad \alpha_{\mathrm{cr}} \ge 2.0
             $$
 
             <div class="table-scroll">
@@ -947,38 +987,38 @@
                         <tr>
                             <th>Design Case</th>
                             <th>Total Mass (kg)</th>
-                            <th>Min Buckling Factor $\alpha_{\text{cr}}$</th>
-                            <th>Max Slenderness $L/r_g$</th>
+                            <th>Min Buckling Factor \( \alpha_{\mathrm{cr}} \)</th>
+                            <th>Max Slenderness \( L/r_g \)</th>
                             <th>Governing Behavior</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>Initial Baseline ($d_0$)</strong></td>
+                            <td><strong>Initial Baseline (\( d_0 \))</strong></td>
                             <td>1.9156 kg</td>
                             <td>9.842</td>
                             <td>118.4</td>
                             <td>Over-built; large stability reserve</td>
                         </tr>
                         <tr>
-                            <td><strong>Optimized WITHOUT $N_1$ ($C_6$ disabled)</strong></td>
+                            <td><strong>Optimized WITHOUT \( N_1 \) (\( C_6 \) disabled)</strong></td>
                             <td>1.0597 kg</td>
                             <td>3.213</td>
                             <td>144.98</td>
-                            <td>Identical optimum; $D/t \le 40$ and $L/r_g \le 200$ already prevent Euler buckling</td>
+                            <td>Identical optimum; \( D/t \le 40 \) and \( L/r_g \le 200 \) already prevent Euler buckling</td>
                         </tr>
                         <tr>
-                            <td><strong>Optimized WITH $N_1$ ($\alpha_{\text{cr}} \ge 2.0$)</strong></td>
+                            <td><strong>Optimized WITH \( N_1 \) (\( \alpha_{\mathrm{cr}} \ge 2.0 \))</strong></td>
                             <td><strong>1.0597 kg</strong></td>
                             <td><strong>3.213</strong></td>
                             <td><strong>144.98</strong></td>
-                            <td>$N_1$ active margin $+60.7\%$; buckling constraint verified inactive at optimum</td>
+                            <td>\( N_1 \) active margin +60.7%; buckling constraint verified inactive at optimum</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div class="callout">
-                <strong>Physical Finding on Nonlinearity ($N_1$):</strong> Enabling vs. disabling the linear buckling constraint ($\alpha_{\text{cr}} \ge 2.0$) produces the exact same optimal mass ($1.0597\,\text{kg}$) because the bottom-bracket stiffness limit ($\delta_{BB} \le 2.0\,\text{mm}$) and thin-wall manufacturing bound ($D/t \le 40$) force large outer diameters ($D_{\text{down}} = 46.57\,\text{mm}, D_{\text{fork}} = 41.77\,\text{mm}$) with high bending inertia $I$. Consequently, $\alpha_{\text{cr}}$ remains safely at $3.213$ ($60.7\%$ above the $2.0$ floor). However, if $D/t_{\max}$ and $\delta_{BB}$ were relaxed, $N_1$ becomes immediately active on the compressed down tube and fork blade during <code>LC2_POS</code>.
+                <strong>Physical Finding on Nonlinearity (\( N_1 \)):</strong> Enabling vs. disabling the linear buckling constraint (\( \alpha_{\mathrm{cr}} \ge 2.0 \)) produces the exact same optimal mass (\( 1.0597\,\mathrm{kg} \)) because the bottom-bracket stiffness limit (\( \delta_{BB} \le 2.0\,\mathrm{mm} \)) and thin-wall manufacturing bound (\( D/t \le 40 \)) force large outer diameters (\( D_{\mathrm{down}} = 46.57\,\mathrm{mm}, D_{\mathrm{fork}} = 41.77\,\mathrm{mm} \)) with high bending inertia \( I \). Consequently, \( \alpha_{\mathrm{cr}} \) remains safely at \( 3.213 \) (60.7% above the \( 2.0 \) floor). However, if \( D/t_{\max} \) and \( \delta_{BB} \) were relaxed, \( N_1 \) becomes immediately active on the compressed down tube and fork blade during <code>LC2_POS</code>.
             </div>
         </section>
 
@@ -995,7 +1035,7 @@
                             <th>Initial Value</th>
                             <th>Optimized Value</th>
                             <th>Limit &amp; Sense</th>
-                            <th>Normalized $g_i$</th>
+                            <th>Normalized \( g_i \)</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -1009,114 +1049,114 @@
                             <td><span class="badge badge-pass">Converged</span></td>
                         </tr>
                         <tr>
-                            <td><code>stress_KS</code> ($\rho = 100$)</td>
+                            <td><code>stress_KS</code> (\( \rho = 100 \))</td>
                             <td>0.4812</td>
                             <td>1.000000007</td>
-                            <td>$\le 1.000$</td>
-                            <td>$+7.00 \times 10^{-9}$</td>
+                            <td>\( \le 1.000 \)</td>
+                            <td>\( +7.00 \times 10^{-9} \)</td>
                             <td><span class="badge badge-warn">Active (Tol)</span></td>
                         </tr>
                         <tr>
-                            <td><code>stress_true_max</code> ($\sigma_{vM}/\sigma_{\text{allow}}$)</td>
+                            <td><code>stress_true_max</code> (\( \sigma_{vM}/\sigma_{\mathrm{allow}} \))</td>
                             <td>0.4695 (64.8 MPa)</td>
                             <td><strong>0.999419</strong> (137.9 MPa)</td>
-                            <td>$\le 1.000$ (138 MPa)</td>
-                            <td>$-5.81 \times 10^{-4}$</td>
+                            <td>\( \le 1.000 \) (138 MPa)</td>
+                            <td>\( -5.81 \times 10^{-4} \)</td>
                             <td><span class="badge badge-pass">Pass</span></td>
                         </tr>
                         <tr>
                             <td><code>seat_cluster_vertical_displacement</code></td>
                             <td>0.512 mm</td>
                             <td>0.814 mm</td>
-                            <td>$\le 5.000$ mm</td>
-                            <td>$-0.8371$</td>
+                            <td>\( \le 5.000 \) mm</td>
+                            <td>\( -0.8371 \)</td>
                             <td><span class="badge badge-pass">Pass</span></td>
                         </tr>
                         <tr>
                             <td><code>bottom_bracket_resultant_displacement</code></td>
                             <td>1.418 mm</td>
                             <td><strong>2.000 mm</strong></td>
-                            <td>$\le 2.000$ mm</td>
-                            <td>$+2.99 \times 10^{-10}$</td>
+                            <td>\( \le 2.000 \) mm</td>
+                            <td>\( +2.99 \times 10^{-10} \)</td>
                             <td><span class="badge badge-warn">Active (Tol)</span></td>
                         </tr>
                         <tr>
-                            <td><code>first_natural_frequency</code> ($f_1$)</td>
+                            <td><code>first_natural_frequency</code> (\( f_1 \))</td>
                             <td>56.12 Hz</td>
                             <td>48.50 Hz</td>
-                            <td>$\ge 10.00$ Hz</td>
-                            <td>$-0.7938$</td>
+                            <td>\( \ge 10.00 \) Hz</td>
+                            <td>\( -0.7938 \)</td>
                             <td><span class="badge badge-pass">Pass</span></td>
                         </tr>
                         <tr>
-                            <td><code>linear_buckling_factor</code> ($\alpha_{\text{cr}}$)</td>
+                            <td><code>linear_buckling_factor</code> (\( \alpha_{\mathrm{cr}} \))</td>
                             <td>9.842</td>
                             <td>3.213</td>
-                            <td>$\ge 2.000$</td>
-                            <td>$-0.3776$</td>
+                            <td>\( \ge 2.000 \)</td>
+                            <td>\( -0.3776 \)</td>
                             <td><span class="badge badge-pass">Pass</span></td>
                         </tr>
                         <tr>
                             <td><code>maximum_D_over_t</code></td>
                             <td>23.00</td>
                             <td><strong>40.00</strong></td>
-                            <td>$\le 40.00$</td>
-                            <td>$+1.90 \times 10^{-10}$</td>
+                            <td>\( \le 40.00 \)</td>
+                            <td>\( +1.90 \times 10^{-10} \)</td>
                             <td><span class="badge badge-warn">Active (Tol)</span></td>
                         </tr>
                         <tr>
                             <td><code>minimum_D_over_t</code></td>
                             <td>11.25</td>
                             <td>12.00</td>
-                            <td>$\ge 10.00$</td>
-                            <td>$-0.1667$</td>
+                            <td>\( \ge 10.00 \)</td>
+                            <td>\( -0.1667 \)</td>
                             <td><span class="badge badge-pass">Pass</span></td>
                         </tr>
                         <tr>
                             <td><code>bottom_bracket_ground_clearance</code></td>
                             <td>0.285 m</td>
                             <td>0.285 m</td>
-                            <td>$\ge 0.270$ m</td>
-                            <td>$-0.0526$</td>
+                            <td>\( \ge 0.270 \) m</td>
+                            <td>\( -0.0526 \)</td>
                             <td><span class="badge badge-pass">Pass</span></td>
                         </tr>
                         <tr>
                             <td><code>minimum_member_length</code></td>
                             <td>0.1726 m</td>
                             <td>0.1726 m</td>
-                            <td>$\ge 0.050$ m</td>
-                            <td>$-0.7104$</td>
+                            <td>\( \ge 0.050 \) m</td>
+                            <td>\( -0.7104 \)</td>
                             <td><span class="badge badge-pass">Pass</span></td>
                         </tr>
                         <tr>
-                            <td><code>maximum_member_slenderness</code> ($L/r_g$)</td>
+                            <td><code>maximum_member_slenderness</code> (\( L/r_g \))</td>
                             <td>118.42</td>
                             <td>144.98</td>
-                            <td>$\le 200.00$</td>
-                            <td>$-0.2751$</td>
+                            <td>\( \le 200.00 \)</td>
+                            <td>\( -0.2751 \)</td>
                             <td><span class="badge badge-pass">Pass</span></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <h3>8.2 Tube Group Sizing Comparison ($D_g$ and $t_g$)</h3>
+            <h3>8.2 Tube Group Sizing Comparison (\( D_g \) and \( t_g \))</h3>
             <div class="table-scroll">
                 <table class="data-table">
                     <thead>
                         <tr>
                             <th>Tube Group</th>
-                            <th>Initial $D_0$ (mm)</th>
-                            <th>Optimized $D^*$ (mm)</th>
-                            <th>Initial $t_0$ (mm)</th>
-                            <th>Optimized $t^*$ (mm)</th>
-                            <th>Optimized $D^*/t^*$</th>
+                            <th>Initial \( D_0 \) (mm)</th>
+                            <th>Optimized \( D^* \) (mm)</th>
+                            <th>Initial \( t_0 \) (mm)</th>
+                            <th>Optimized \( t^* \) (mm)</th>
+                            <th>Optimized \( D^*/t^* \)</th>
                             <th>Engineering Role</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>Seat Tube</strong> ($M_1$)</td>
+                            <td><strong>Seat Tube</strong> (\( M_1 \))</td>
                             <td>34.00</td>
                             <td>25.00 (LB)</td>
                             <td>2.00</td>
@@ -1125,7 +1165,7 @@
                             <td>Thinned to lower bounds; mainly axial compression</td>
                         </tr>
                         <tr>
-                            <td><strong>Top Tube</strong> ($M_2$)</td>
+                            <td><strong>Top Tube</strong> (\( M_2 \))</td>
                             <td>36.00</td>
                             <td>25.00 (LB)</td>
                             <td>2.00</td>
@@ -1134,7 +1174,7 @@
                             <td>Thinned to lower bounds; low bending in LC2</td>
                         </tr>
                         <tr>
-                            <td><strong>Down Tube</strong> ($M_3$)</td>
+                            <td><strong>Down Tube</strong> (\( M_3 \))</td>
                             <td>46.00</td>
                             <td><strong>46.57</strong></td>
                             <td>2.00</td>
@@ -1143,25 +1183,25 @@
                             <td>Primary backbone carrying BB torsion &amp; head bending</td>
                         </tr>
                         <tr>
-                            <td><strong>Head Tube</strong> ($M_4$)</td>
+                            <td><strong>Head Tube</strong> (\( M_4 \))</td>
                             <td>44.00</td>
                             <td>41.13</td>
                             <td>2.50</td>
                             <td>1.03</td>
                             <td>39.90</td>
-                            <td>Expanded diameter at $D/t \approx 40$ for torsional rigidity</td>
+                            <td>Expanded diameter at \( D/t \approx 40 \) for torsional rigidity</td>
                         </tr>
                         <tr>
-                            <td><strong>Chainstays</strong> ($M_5, M_6$)</td>
+                            <td><strong>Chainstays</strong> (\( M_5, M_6 \))</td>
                             <td>22.00</td>
                             <td><strong>34.47</strong></td>
                             <td>1.80</td>
                             <td>1.00 (LB)</td>
                             <td>34.47</td>
-                            <td>Diameter enlarged +56.7% to satisfy $\delta_{BB} \le 2\,\text{mm}$</td>
+                            <td>Diameter enlarged +56.7% to satisfy \( \delta_{BB} \le 2\,\mathrm{mm} \)</td>
                         </tr>
                         <tr>
-                            <td><strong>Seatstays</strong> ($M_7, M_8$)</td>
+                            <td><strong>Seatstays</strong> (\( M_7, M_8 \))</td>
                             <td>18.00</td>
                             <td>12.00 (LB)</td>
                             <td>1.60</td>
@@ -1170,7 +1210,7 @@
                             <td>Lightly loaded rear triangle struts shrunk to lower bounds</td>
                         </tr>
                         <tr>
-                            <td><strong>Fork Blades</strong> ($M_9, M_{10}$)</td>
+                            <td><strong>Fork Blades</strong> (\( M_9, M_{10} \))</td>
                             <td>32.00</td>
                             <td><strong>41.77</strong></td>
                             <td>2.00</td>
@@ -1194,16 +1234,16 @@
 
             <h3>9.2 Modeling Limitations</h3>
             <ul>
-                <li><strong>Provisional Shape Envelope:</strong> In the converged <code>results.json</code> run, the 14 cross-sectional variables ($D_1\dots D_7, t_1\dots t_7$) were optimized while the 11 joint coordinates remained fixed at the provisional geometry envelope. Unlocking full 25-variable simultaneous sizing + shape optimization requires multi-start globalization due to non-convexity of member lengths.</li>
-                <li><strong>Joint Compliance &amp; Weld Heat-Affected Zones (HAZ):</strong> Frame nodes are modeled as rigid point intersections without gusset fillets or localized 6061-T6 weld HAZ yield knockdown factors ($S_{y,\text{HAZ}} \approx 150\,\text{MPa}$), which motivates our conservative $\sigma_{\text{allow}} = 138\,\text{MPa}$ ($S_y / 2$) limit.</li>
-                <li><strong>SLSQP Feasibility Tolerance:</strong> Because <code>SLSQP</code> terminates when constraint violations fall below `ftol = 1e-8`, active constraints (<code>stress_KS</code>, <code>bottom_bracket_resultant_displacement</code>, <code>maximum_D_over_t</code>) sit at $+10^{-10}$ to $+7\times 10^{-9}$, causing the strict boolean flag <code>"feasible": false</code> in <code>results.json</code> even though <code>stress_true_max = 0.99942 &lt; 1.0</code>.</li>
+                <li><strong>Provisional Shape Envelope:</strong> In the converged <code>results.json</code> run, the 14 cross-sectional variables (\( D_1\dots D_7, t_1\dots t_7 \)) were optimized while the 11 joint coordinates remained fixed at the provisional geometry envelope. Unlocking full 25-variable simultaneous sizing + shape optimization requires multi-start globalization due to non-convexity of member lengths.</li>
+                <li><strong>Joint Compliance &amp; Weld Heat-Affected Zones (HAZ):</strong> Frame nodes are modeled as rigid point intersections without gusset fillets or localized 6061-T6 weld HAZ yield knockdown factors (\( S_{y,\mathrm{HAZ}} \approx 150\,\mathrm{MPa} \)), which motivates our conservative \( \sigma_{\mathrm{allow}} = 138\,\mathrm{MPa} \) (\( S_y / 2 \)) limit.</li>
+                <li><strong>SLSQP Feasibility Tolerance:</strong> Because <code>SLSQP</code> terminates when constraint violations fall below <code>ftol = 1e-8</code>, active constraints (<code>stress_KS</code>, <code>bottom_bracket_resultant_displacement</code>, <code>maximum_D_over_t</code>) sit at \( +10^{-10} \) to \( +7\times 10^{-9} \), causing the strict boolean flag <code>"feasible": false</code> in <code>results.json</code> even though <code>stress_true_max = 0.99942 &lt; 1.0</code>.</li>
             </ul>
 
             <h3>9.3 AI-Use Statement &amp; Bug Caught by Verification</h3>
             <ul>
                 <li><strong>What the Coding Agent Wrote:</strong> Assisted in scaffolding the modular Python sparse assembly (<code>assembly.py</code>), unit-test harness (<code>verification.py</code>), and Three.js WebGL visualization boilerplate.</li>
-                <li><strong>What the Team Derived &amp; Verified Independently:</strong> Our team derived the 25-variable problem formulation, 6061-T6 load cases (<code>LC1</code>, <code>LC2_POS</code>, <code>LC2_NEG</code>), the discrete-adjoint equations, the geometric stiffness buckling formulation ($N_1$), and the analytical reference formulas for V1&ndash;V7 prior to running solver checks.</li>
-                <li><strong>Critical Bug Caught by the Verification Ladder:</strong> During initial testing on <strong>V1 (3D Cantilever Biaxial Bending)</strong> and <strong>V2 (Hermite Interpolation)</strong>, the agent-generated local coordinate transformation suffered from two classic 3D frame bugs: (1) a gimbal-lock division by zero when a member was aligned parallel to global $+z$ (head tube / seat tube), and (2) an inverted sign on the local-$z$ bending coupling term ($\theta_y$ rotation vs. $-z$ transverse deflection in right-handed coordinates). Catching this on V1/V2 led us to implement the least-aligned global basis selector in <code>local_axes()</code> and explicit sign verification in <code>verify_v2_mesh_convergence()</code> before running optimization.</li>
+                <li><strong>What the Team Derived &amp; Verified Independently:</strong> Our team derived the 25-variable problem formulation, 6061-T6 load cases (<code>LC1</code>, <code>LC2_POS</code>, <code>LC2_NEG</code>), the discrete-adjoint equations, the geometric stiffness buckling formulation (\( N_1 \)), and the analytical reference formulas for V1&ndash;V7 prior to running solver checks.</li>
+                <li><strong>Critical Bug Caught by the Verification Ladder:</strong> During initial testing on <strong>V1 (3D Cantilever Biaxial Bending)</strong> and <strong>V2 (Hermite Interpolation)</strong>, the agent-generated local coordinate transformation suffered from two classic 3D frame bugs: (1) a gimbal-lock division by zero when a member was aligned parallel to global \( +z \) (head tube / seat tube), and (2) an inverted sign on the local-\( z \) bending coupling term (\( \theta_y \) rotation vs. \( -z \) transverse deflection in right-handed coordinates). Catching this on V1/V2 led us to implement the least-aligned global basis selector in <code>local_axes()</code> and explicit sign verification in <code>verify_v2_mesh_convergence()</code> before running optimization.</li>
             </ul>
         </section>
 
